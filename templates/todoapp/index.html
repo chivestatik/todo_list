@@ -1,0 +1,41 @@
+{% extends "todoapp/layout.html" %}
+
+{% block content %}
+
+<div class="app">
+	<h1>Менеджер задач</h1>
+	<form action='{% url "add" %}' method='post'>
+		{% csrf_token %}
+		<input type="text" name='title' placeholder='Введите новую задачу'>
+		<button type='submit'>Добавить задачу</button>
+	</form>
+
+	{% for todo in todos %}
+
+	<ul>
+		<li>
+			<div>
+				<h1>{{todo.title}}</h1>
+				<div>
+					{% if todo.is_complete == False %}
+					<a href="{% url "update" todo_id=todo.id %}"><button class='btn_green'>Завершить задачу</button></a>
+					{% else %}
+					<a href=""><button class='btn_green'>Завершено</button></a> 
+					<a href="{% url "update" todo_id=todo.id %}"><button class='btn_outline'>Открыть задачу</button></a>
+					{% endif %}
+					<a href="{% url "delete" todo_id=todo.id %}"><button class='btn_red'>Удалить</button></a>
+				</div>
+			</div>
+		</li>
+	</ul>
+
+{% endfor %}
+
+
+</div>
+
+
+
+
+
+{% endblock content %}
